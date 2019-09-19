@@ -3,11 +3,9 @@ package com.tchokoapps.springboot.springcorespringmvc.services;
 import com.tchokoapps.springboot.springcorespringmvc.domain.Product;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -65,5 +63,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> listAllProducts() {
         return new ArrayList<>(products.values());
+    }
+
+    @Override
+    public Product getProductById(@NotNull Long id) {
+        return products.get(id);
+    }
+
+    @Override
+    public Product saveOrUpdate(@NotNull Product product) {
+        if (product.getId() == null) {
+            product.setId(getNextKey());
+        }
+        products.put(product.getId(), product);
+        return product;
+    }
+
+    private Long getNextKey() {
+        return Collections.max(products.keySet()) + 1;
     }
 }
