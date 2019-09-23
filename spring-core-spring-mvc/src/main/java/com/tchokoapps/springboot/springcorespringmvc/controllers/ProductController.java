@@ -42,6 +42,18 @@ public class ProductController {
         Product savedProduct = productService.saveOrUpdate(product);
         return "redirect:/product/" + savedProduct.getId();
     }
+
+    @GetMapping("/product/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "productform";
+    }
+
+    @GetMapping("/product/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return "redirect:/products";
+    }
 }
 
 

@@ -79,6 +79,11 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
+    public void deleteProduct(@NotNull Long id) {
+        products.remove(id);
+    }
+
     private Long getNextKey() {
         return Collections.max(products.keySet()) + 1;
     }
