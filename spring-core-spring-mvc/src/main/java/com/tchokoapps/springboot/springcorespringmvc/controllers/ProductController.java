@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.constraints.NotNull;
 
-@Controller
+@Controller()
 public class ProductController {
 
     private ProductService productService;
@@ -19,22 +19,22 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/product/list")
     public String listProducts(Model model) {
         model.addAttribute("products", productService.listAllProducts());
-        return "products";
+        return "product/list";
     }
 
     @GetMapping("/product/{id}")
     public String getProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
-        return "product";
+        return "product/product";
     }
 
     @GetMapping("/product/new")
     public String createNewProduct(Model model) {
         model.addAttribute("product", new Product());
-        return "productform";
+        return "/product/productform";
     }
 
     @PostMapping("/product")
@@ -46,13 +46,13 @@ public class ProductController {
     @GetMapping("/product/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
-        return "productform";
+        return "product/productform";
     }
 
     @GetMapping("/product/delete/{id}")
     public String delete(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/product/list";
     }
 }
 
